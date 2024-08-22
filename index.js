@@ -2,7 +2,7 @@ const express=require("express");
 const path=require("path");
 const cookieParser=require("cookie-parser")
 const {connectDB}=require("./connect");
-const {restrictToLoggedinUserOnly,checkAuth}=require("./middlewares/auth");
+const {checkForAuthentication,restrictTo}=require("./middlewares/auth");
 const URL = require("./models/url");
 
 const urlRoute=require("./routes/url");
@@ -25,10 +25,11 @@ app.set("views",path.resolve("./views"));
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 app.use(cookieParser());
+app.use(checkForAuthentication);
 
-app.use("/url",restrictToLoggedinUserOnly,urlRoute);  //to use /url user need to be logined hence uused the func restrictoLoggedinUser
+app.use("/url", restrictTo(["NORMAL"]),urlRoute);  //to use /url user need to be logined hence uused the func restrictoLoggedinUser
 app.use("/user",userRoute);
-app.use("/",checkAuth,staticRoute);
+app.use("/",staticRoute);  //we can authorize either ny cookeis(only for browsers) or by sending json response
 
 app.get('/url/:shortId',async(req,res)=>{
     const shortId=req.params.shortId;
