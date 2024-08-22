@@ -27,7 +27,7 @@ app.use(express.urlencoded({extended:false}));
 app.use(cookieParser());
 app.use(checkForAuthentication);
 
-app.use("/url", restrictTo(["NORMAL"]),urlRoute);  //to use /url user need to be logined hence uused the func restrictoLoggedinUser
+app.use("/url", restrictTo(["NORMAL","ADMIN"]),urlRoute);  //to use /url user need to be logined hence uused the func restrictoLoggedinUser
 app.use("/user",userRoute);
 app.use("/",staticRoute);  //we can authorize either ny cookeis(only for browsers) or by sending json response
 

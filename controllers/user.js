@@ -22,11 +22,9 @@
 
      
     const token= setUser(user);
-    //res.cookie("uid",token);
+    res.cookie("token",token);
 
-    //return res.redirect("/");
-
-    return res.json({token});;
+    return res.redirect("/");
  }
     
  module.exports={
